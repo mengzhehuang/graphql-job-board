@@ -7,6 +7,12 @@ export async function graphqlRequest(query, variables = {}) {
     body: JSON.stringify({ query, variables }),
   });
   const responseBody = await response.json();
+  if (responseBody.errors) {
+    const message = responseBody.errors
+      .map((error) => error.message)
+      .join("\n");
+    throw new Error(message);
+  }
   return responseBody.data;
 }
 
@@ -32,7 +38,7 @@ export async function loadJob(id) {
     query JobQuery ($id: ID!){
         job(id: $id) {
         id
-        title
+        titlez
         company {
             id
             name
