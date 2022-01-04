@@ -1,6 +1,12 @@
+import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost/lib";
 import { getAccessToken, isLoggedIn } from "./auth";
 
 const endpointURL = "http://localhost:9000/graphql";
+
+const client = new ApolloClient({
+  link: new HttpLink({ uri: endpointURL }),
+  cache: new InMemoryCache(),
+});
 
 export async function graphqlRequest(query, variables = {}) {
   const request = {
